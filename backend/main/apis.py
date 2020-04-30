@@ -7,5 +7,6 @@ from rest_framework.response import Response
 class DashboardView(APIView):
     def get(self, request):
         return Response({
-            "data": "some private data"
+            "route": "/dashboard",
+            "method": "get"
         })

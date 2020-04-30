@@ -11,7 +11,8 @@ export default function HomePage() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/success" component={LoginSuccess} />
 
-      {/* <Redirect to="/dashboard" /> */}
+      <Redirect exact from="/auth/login" to="/success" />
+      <Redirect to="/dashboard" />
     </Switch>
   );
 }

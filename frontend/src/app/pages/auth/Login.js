@@ -35,12 +35,10 @@ function Login(props) {
           return errors;
         }}
         onSubmit={(values, { setStatus, setSubmitting }) => {
-          console.log('onsubmit');
           setTimeout(() => {
             login(values.email, values.password)
               .then(({ data }) => {
                 props.login(data.access);
-                props.history.push('/success');
               })
               .catch(() => {
                 setSubmitting(false);
@@ -115,8 +113,7 @@ function Login(props) {
 }
 
 Login.propTypes = {
-  login: PropTypes.func,
-
+  login: PropTypes.func
 };
 
 export default withRouter(

@@ -7,8 +7,9 @@ export default function AuthPage() {
   return (
     <Container>
       <Switch>
+        <Redirect exact from="/" to="/auth/login" />
+
         <Route path="/auth/login" component={Login} />
-        <Redirect exact from="/auth" to="/auth/login" />
 
         <Redirect to="/auth/login" />
       </Switch>

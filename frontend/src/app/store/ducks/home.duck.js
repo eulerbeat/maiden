@@ -6,17 +6,17 @@ export const actionTypes = {
 };
 
 const initialAuthState = {
-  dashboard: undefined
+  data: undefined
 };
 
 export const reducer = persistReducer(
-  { storage, key: "maiden-frontend-home", whitelist: ["dashboard"] },
+  { storage, key: "maiden-frontend-home", whitelist: ["data"] },
   (state = initialAuthState, action) => {
     switch (action.type) {
       case actionTypes.Dashboard: {
-        const { dashboard } = action.payload;
+        const { data } = action.payload;
 
-        return { dashboard };
+        return { data };
       }
 
       default:
@@ -26,7 +26,7 @@ export const reducer = persistReducer(
 );
 
 export const actions = {
-  dashboard: dashboard => ({ type: actionTypes.Dashboard, payload: { dashboard } })
+  setDashboard: data => ({ type: actionTypes.Dashboard, payload: { data } })
 };
 
 export function* saga() {

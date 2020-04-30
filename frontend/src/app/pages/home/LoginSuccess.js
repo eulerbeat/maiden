@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import { Card, CardContent, CardHeader, List, ListItem, ListItemText } from "@material-ui/core";
+import { Card, CardContent, CardHeader, CardActions, List, ListItem, ListItemText, Button } from "@material-ui/core";
 import PropTypes from 'prop-types';
 import './LoginSuccess.css';
 
 
 function LoginSuccess(props) {
+    const handleGoToDashboard = (evt) => {
+        props.history.push('/dashboard');
+    };
+
     return (
         <div className="center-div">
             Login Success!
@@ -30,6 +34,11 @@ function LoginSuccess(props) {
                         </ListItem>
                     </List>
                 </CardContent>
+                <CardActions>
+                    <Button onClick={handleGoToDashboard}>
+                        Go to Dashboard
+                    </Button>
+                </CardActions>
             </Card>
         </div>
     );

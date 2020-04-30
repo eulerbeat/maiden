@@ -6,7 +6,6 @@
  */
 
 import React from "react";
-import { Route, Switch } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 import HomePage from "../pages/home/HomePage";
 import AuthPage from "../pages/auth/AuthPage";
@@ -18,14 +17,7 @@ export const Routes = () => {
     }),
     shallowEqual
   );
+  console.log(isAuthorized);
 
-  return (
-    <Switch>
-      {!isAuthorized ? (
-        <AuthPage />
-      ) : (
-          <HomePage />
-        )}
-    </Switch>
-  );
+  return isAuthorized ? <HomePage /> : <AuthPage />;
 };
