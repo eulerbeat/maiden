@@ -17,7 +17,6 @@ export const Routes = () => {
     }),
     shallowEqual
   );
-  console.log(isAuthorized);
 
   return isAuthorized ? <HomePage /> : <AuthPage />;
 };

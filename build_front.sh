@@ -6,7 +6,7 @@ echo "starting container ..."
 docker-compose up -d
 
 echo "building ..."
-docker-compose exec frontend npm run build
+docker-compose exec frontend yarn build
 
 echo "removing old artifacts ..."
 rm -r -f ./backend/front_build

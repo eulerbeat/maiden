@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const LOGIN_URL = "/api/auth/obtain-token/";
+export const REFRESH_URL = "/api/auth/refresh-token/";
+
 export const REGISTER_URL = "/api/auth/register";
 export const REQUEST_PASSWORD_URL = "/api/auth/forgot-password";
 

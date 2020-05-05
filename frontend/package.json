@@ -5,9 +5,6 @@
   "dependencies": {
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "formik": "^2.1.4",
     "prop-types": "^15.7.2",
@@ -40,7 +37,10 @@
   },
   "proxy": "http://backend:8000",
   "devDependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",
-    "eslint-plugin-react": "^7.19.0"
+    "eslint-plugin-react": "^7.19.0",
+    "react-test-renderer": "^16.13.1"
   }
 }

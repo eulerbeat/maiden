@@ -7,29 +7,37 @@ export const actionTypes = {
   Login: "[Login] Action",
   Logout: "[Logout] Action",
   Register: "[Register] Action",
+  RefreshToken: "[Refresh Token] Action",
   UserRequested: "[Request User] Action",
   UserLoaded: "[Load User] Auth API"
 };
 
 const initialAuthState = {
   user: undefined,
-  authToken: undefined
+  authToken: undefined,
+  refreshToken: undefined
 };
 
 export const reducer = persistReducer(
-  { storage, key: "maiden-frontend-auth", whitelist: ["user", "authToken"] },
+  { storage, key: "maiden-frontend-auth", whitelist: ["user", "authToken", "refreshToken"] },
   (state = initialAuthState, action) => {
     switch (action.type) {
       case actionTypes.Login: {
-        const { authToken } = action.payload;
+        const { authToken, refreshToken } = action.payload;
 
-        return { authToken, user: undefined };
+        return { authToken, refreshToken, user: undefined };
       }
 
       case actionTypes.Register: {
+        const { authToken, refreshToken } = action.payload;
+
+        return { authToken, refreshToken, user: undefined };
+      }
+
+      case actionTypes.RefreshToken: {
         const { authToken } = action.payload;
 
-        return { authToken, user: undefined };
+        return { ...state, authToken };
       }
 
       case actionTypes.Logout: {
@@ -49,13 +57,20 @@ export const reducer = persistReducer(
 );
 
 export const actions = {
-  login: authToken => ({ type: actionTypes.Login, payload: { authToken } }),
-  register: authToken => ({
+  login: (authToken, refreshToken) => ({
+    type: actionTypes.Login,
+    payload: { authToken, refreshToken }
+  }),
+  register: (authToken, refreshToken) => ({
     type: actionTypes.Register,
+    payload: { authToken, refreshToken }
+  }),
+  refresh: (authToken) => ({
+    type: actionTypes.RefreshToken,
     payload: { authToken }
   }),
   logout: () => ({ type: actionTypes.Logout }),
-  requestUser: user => ({ type: actionTypes.UserRequested, payload: { user } }),
+  requestUser: () => ({ type: actionTypes.UserRequested }),
   fulfillUser: user => ({ type: actionTypes.UserLoaded, payload: { user } })
 };
 

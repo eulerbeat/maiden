@@ -38,7 +38,7 @@ function Login(props) {
           setTimeout(() => {
             login(values.email, values.password)
               .then(({ data }) => {
-                props.login(data.access);
+                props.login(data.access, data.refresh);
               })
               .catch(() => {
                 setSubmitting(false);

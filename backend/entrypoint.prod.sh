@@ -19,4 +19,7 @@ fi
 python manage.py makemigrations
 python manage.py migrate
 
+# Create super user
+python manage.py makesuper
+
 exec "$@"

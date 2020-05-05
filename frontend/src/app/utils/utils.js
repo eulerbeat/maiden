@@ -1,13 +1,5 @@
-export function removeCSSClass(ele, cls) {
-  const reg = new RegExp("(\\s|^)" + cls + "(\\s|$)");
-  ele.className = ele.className.replace(reg, " ");
-}
-
-export function addCSSClass(ele, cls) {
-  ele.classList.add(cls);
-}
-
-export const toAbsoluteUrl = pathname => process.env.PUBLIC_URL + pathname;
+import { actions } from '../store/ducks/auth.duck';
+import { REFRESH_URL } from '../service/auth.service';
 
 export function setupAxios(axios, store) {
   axios.interceptors.request.use(
@@ -24,6 +16,40 @@ export function setupAxios(axios, store) {
     },
     err => Promise.reject(err)
   );
+
+  axios.interceptors.response.use((response) => {
+    return response;
+  }, error => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && originalRequest.url.includes(REFRESH_URL)) {
+      store.dispatch(actions.logout());
+      return Promise.reject(error);
+    }
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const {
+        auth: { refreshToken }
+      } = store.getState();
+
+      return axios.post(REFRESH_URL, { refresh: refreshToken })
+        .then(res => {
+          if (res.status === 200) {
+            store.dispatch(actions.refresh(res.data.access));
+
+            axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access}`;
+
+            return axios(originalRequest);
+          }
+        }).catch(err => {
+          store.dispatch(actions.logout());
+          return Promise.reject(error);
+        });
+    }
+    return Promise.reject(error);
+  });
 }
 
 /*  removeStorage: removes a key from localStorage and its sibling expiracy key
@@ -39,9 +65,9 @@ export function removeStorage(key) {
   } catch (e) {
     console.log(
       "removeStorage: Error removing key [" +
-        key +
-        "] from localStorage: " +
-        JSON.stringify(e)
+      key +
+      "] from localStorage: " +
+      JSON.stringify(e)
     );
     return false;
   }
@@ -75,9 +101,9 @@ export function getStorage(key) {
     } catch (e) {
       console.log(
         "getStorage: Error reading key [" +
-          key +
-          "] from localStorage: " +
-          JSON.stringify(e)
+        key +
+        "] from localStorage: " +
+        JSON.stringify(e)
       );
       return null;
     }
@@ -104,9 +130,9 @@ export function setStorage(key, value, expires) {
   } catch (e) {
     console.log(
       "setStorage: Error setting key [" +
-        key +
-        "] in localStorage: " +
-        JSON.stringify(e)
+      key +
+      "] in localStorage: " +
+      JSON.stringify(e)
     );
     return false;
   }

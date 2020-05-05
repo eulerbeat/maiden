@@ -15,7 +15,10 @@ function Dashboard(props) {
             .then(({ data }) => {
                 props.setDashboard(data);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log('errtor');
+                console.log(err);
+            });
     }, []);
 
     const logout = (evt) => {
@@ -28,8 +31,14 @@ function Dashboard(props) {
             <Card className="">
                 <CardHeader title="Some Information" />
                 <CardContent>
-                    <pre>{props.data.route}</pre>
-                    <pre>{props.data.method}</pre>
+                    {
+                        props.data && (
+                            <>
+                                <pre>{props.data.route}</pre>
+                                <pre>{props.data.method}</pre>
+                            </>
+                        )
+                    }
                 </CardContent>
                 <CardActions>
                     <Button onClick={logout}>
